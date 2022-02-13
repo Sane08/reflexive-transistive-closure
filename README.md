@@ -1,21 +1,7 @@
-# Example
+# Fecho Reflexivo e Transitivo em Elixir
 
-**TODO: Add description**
+Este código implementa o algoritmo de fecho reflexivo e transitivo de uma relação binária R ⊆ A × A sobre um conjunto finito A que é descrita por meio de um grafo direcionado em Elixir por meio de funções recursivas.
 
-## Installation
+A atividade foi realizada para a disciplina PCS3556.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `example` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:example, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/example>.
-
+O código contém duas funções principais: `mapReflexiveClosure`, cuja finalidade é a determinação do fecho reflexivo, e `mapTransitiveClosure`, que determina o fecho transitivo, a partir de uma lista de pares ordenados. Neste repositório, encontram-se também testes realizados para confirmar o funcionamento adequado do código.
