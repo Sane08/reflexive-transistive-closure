@@ -1,6 +1,6 @@
 defmodule ReflexiveTransitiveClosureSolver do
 
-  def mapReflexiveClosure(input, position) do
+  def mapReflexiveClosure(input, position \\ 0) do
     case Enum.fetch(input, position) do
       {:ok, tuple} ->
         {x, y} = tuple
@@ -9,30 +9,38 @@ defmodule ReflexiveTransitiveClosureSolver do
           !Enum.member?(input, {y, y}) -> mapReflexiveClosure(input ++ [{y, y}], position + 1)
           true -> mapReflexiveClosure(input, position + 1)
         end
-      :error -> input
+      :error ->
+        input
     end
   end
 
-  def mapTransitiveClosure(fixed_position, input, varying_position) do
+  def mapTransitiveClosure(input, fixed_position \\ 0, varying_position \\ 1) do
     case Enum.fetch(input, fixed_position) do
       {:ok, tuple} ->
         case Enum.fetch(input, varying_position) do
-          {:ok, analised} ->
+          {:ok, analyzed} ->
             {source, destination} = tuple
-            {analised_source, analised_destination} = analised
-            new_tuple =  {source, analised_destination}
-            case ((destination == analised_source) && (!Enum.member?(input, new_tuple))) do
-              true -> mapTransitiveClosure(fixed_position, input ++ [new_tuple], varying_position + 1)
-              _ -> mapTransitiveClosure(fixed_position, input, varying_position + 1)
+            {analyzed_source, analyzed_destination} = analyzed
+
+            new_tuple =  {source, analyzed_destination}
+
+            case ((destination == analyzed_source) && (!Enum.member?(input, new_tuple))) do
+              true ->
+                mapTransitiveClosure(input ++ [new_tuple], fixed_position, varying_position + 1)
+              _ ->
+                mapTransitiveClosure(input, fixed_position, varying_position + 1)
             end
-          :error -> mapTransitiveClosure(fixed_position + 1, input, 0)
+          :error ->
+            mapTransitiveClosure(input, fixed_position + 1, 0)
         end
-        :error -> input
+        :error ->
+          input
     end
   end
 
   def reflexive_transitive_closure(input) do
-    reflexive_closure = mapReflexiveClosure(input, 0)
-    mapTransitiveClosure(0, reflexive_closure, 1) |> Enum.sort()
+    mapReflexiveClosure(input) |>
+    mapTransitiveClosure() |>
+    Enum.sort()
   end
 end
